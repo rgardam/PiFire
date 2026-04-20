@@ -1546,6 +1546,49 @@
 					]
 				}			
 			},			
+			"bt_int14bw" : {
+				"friendly_name" : "Bluetooth - Inkbird INT-14-BW (4 Wireless Probes, Tip + Ambient)",
+				"filename" : "bt_int14bw",
+				"description" : "Support for the Inkbird INT-14-BW four-probe wireless BLE thermometer.  Each of the 4 wireless probes has two sensors (tip + ambient), exposed as 8 separate PiFire ports (BT1_Tip, BT1_Amb, ... BT4_Tip, BT4_Amb).  Assign the tips as your Primary/Food probes; the ambient readings are useful as Aux probes to see the air temperature around each meat probe.  Uses bleak (BlueZ DBus) rather than bluepy so it works alongside the system bluez daemon.  Power on the base station and put it in BLE advertising mode before scanning.",
+				"default" : false,
+				"image" : "bt_ibbq.png",
+				"reboot_required" : false,
+				"py_dependencies" : ["bleak==0.22.3"],
+				"apt_dependencies" : [],
+				"command_list" : [],
+				"settings_dependencies" : {
+					"units" : {
+						"friendly_name" : "Temp Units",
+						"description" : "Select the temperature units to use for PiFire globally.  (This can be modified in settings later)",
+						"options" : {"F" : "Fahrenheit", "C": "Celsius"},
+						"settings" : ["globals", "units"]
+					}
+				},
+				"device_specific" : {
+					"ports" : ["BT1_Tip", "BT1_Amb", "BT2_Tip", "BT2_Amb", "BT3_Tip", "BT3_Amb", "BT4_Tip", "BT4_Amb"],
+					"type" : "bluetooth",
+					"config" : [
+						{
+							"label" : "hardware_id",
+							"friendly_name" : "Hardware ID",
+							"description" : "Unique Hardware ID / Address of the INT-14-BW base station (format: xx:xx:xx:xx:xx:xx).  Discover via the Scan button with the device powered on and in BLE pairing/advertising mode.",
+							"type" : "bt_address",
+							"default" : "",
+							"hidden" : false
+						},
+						{
+							"label" : "transient",
+							"friendly_name" : "Transient",
+							"description" : "Select whether this device is fixed/always attached (default) or if it is transient/sometimes detached.",
+							"type" : "list",
+							"list_values" : ["True", "False"],
+							"list_labels" : ["Transient (sometimes detached)", "Fixed (always attached)"],
+							"default" : "True",
+							"hidden" : true
+						}
+					]
+				}
+			},
 			"bt_meater" : {
 				"friendly_name" : "Bluetooth - Meater",
 				"filename" : "bt_meater",

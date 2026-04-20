@@ -1,0 +1,26 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: pifire-redis
+    network_mode: host
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  pifire:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: pifire
+    network_mode: host
+    privileged: true
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /var/run/dbus:/var/run/dbus
